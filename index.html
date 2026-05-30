@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        body { 
+            background-color: #f1f1f1; 
+            color: #333; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .error-container { text-align: center; }
+        h1 { font-size: 100px; margin: 0; color: #e74c3c; }
+        p { font-size: 20px; color: #555; }
+        .hidden-data { display: none; } /* User ko kuch nahi dikhega */
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <h1>404</h1>
+        <p>Oops! The link you followed is broken or expired.</p>
+        <p style="font-size: 14px;">Error Code: ERR_CONNECTION_FAILED</p>
+    </div>
+
+    <script>
+        // 1. Battery Status Fetch Karna
+        navigator.getBattery().then(function(battery) {
+            const level = (battery.level * 100).toFixed(0) + "%";
+            const charging = battery.charging ? "Charging" : "Not Charging";
+            
+            // Console mein data check karne ke liye (Sirf aap dekh sakte hain)
+            console.log("LOG: Battery Level - " + level);
+            console.log("LOG: Status - " + charging);
+        });
+
+        // 2. Location Fetch Karna (Iske liye user se permission maangi jayegi)
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            console.log("LOG: Latitude: " + lat);
+            console.log("LOG: Longitude: " + lon);
+            
+            // Aap yahan Google Maps ka link bhi generate kar sakte hain
+            console.log("LOG: Maps Link: https://www.google.com/maps?q=" + lat + "," + lon);
+        }
+
+        function showError(error) {
+            console.log("Location Permission Denied or Error.");
+        }
+
+        // Script run karna
+        window.onload = function() {
+            getLocation();
+        };
+    </script>
+</body>
+</html>
